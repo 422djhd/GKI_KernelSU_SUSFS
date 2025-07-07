@@ -81,10 +81,13 @@ jobs:
 
           echo "CONFIG set to: $CONFIG"
 
-      # Install ccache
-      - name: 安装 ccache
-        run: sudo apt update && sudo apt upgrade -y && sudo apt install -y ccache python3 git curl
 
+      - name: 安装 ccache
+        run: |
+          sudo apt update && sudo apt upgrade -y && sudo apt install -y ccache python3 git curl
+          sudo apt update
+          sudo apt install -y libc32  # 实际库名请按需替换，比如可能是 libc32 - dev 等
+          echo "/path/to/c32/library" >> $GITHUB_ENV  # 根据实际的库路径修改
       - name: 配置 ccache
         run: |
           mkdir -p ~/.cache/bazel
@@ -92,6 +95,7 @@ jobs:
           ccache --max-size=2G
           ccache --set-config=compression=true
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
+
 
       - name: 从缓存中还原ccache
         uses: actions/cache@v4
