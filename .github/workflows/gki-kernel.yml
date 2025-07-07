@@ -98,24 +98,24 @@ jobs:
           # 3. 尝试安装 libc32（根据搜索结果调整包名）
           echo "尝试安装 libc32 或替代包..."
           if sudo apt-get install -y libc32; then
-            echo "成功安装 libc32"
+          echo "成功安装 libc32"
           elif sudo apt-get install -y lib32ncurses5; then  # 示例：常见替代包
-            echo "成功安装替代包 lib32ncurses5"
+          echo "成功安装替代包 lib32ncurses5"
           elif sudo apt  -get install -y lib32z1; then  # 示例：另一种替代包
-            echo "成功安装替代包 lib32z1"
+          echo "成功安装替代包 lib32z1"
           else
           echo "未找到 libc32 或兼容包，尝试添加多架构支持"
           # 4. 添加多架构支持（32位支持）
-            sudo dpkg --add-architecture i386
-            sudo apt-get update -y
+          sudo dpkg --add-architecture i386
+          sudo apt-get update -y
       
-            # 5. 再次尝试安装
-            if sudo apt-get install -y libc32; then
-              echo "启用多架构后成功安装 libc32"
-            else
-              echo "错误：无法安装 libc32 或兼容包"
-              exit 1
-            fi
+          # 5. 再次尝试安装
+          if sudo apt-get install -y libc32; then
+          echo "启用多架构后成功安装 libc32"
+          else
+          echo "错误：无法安装 libc32 或兼容包"
+          exit 1
+          fi
           fi
     
           # 6. 验证安装结果
