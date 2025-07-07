@@ -83,11 +83,18 @@ jobs:
 
 
       - name: 安装 ccache
+        run: sudo apt update && sudo apt upgrade -y && sudo apt install -y ccache python3 git curl
+        
+      - name: 安装 c32 库
         run: |
-          sudo apt update && sudo apt upgrade -y && sudo apt install -y ccache python3 git curl
           sudo apt update
           sudo apt install -y libc32  # 实际库名请按需替换，比如可能是 libc32 - dev 等
+
+      # 新增：设置库搜索路径
+      - name: 设置库搜索路径
+        run: |
           echo "/path/to/c32/library" >> $GITHUB_ENV  # 根据实际的库路径修改
+          
       - name: 配置 ccache
         run: |
           mkdir -p ~/.cache/bazel
